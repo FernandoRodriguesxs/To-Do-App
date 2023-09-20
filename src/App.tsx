@@ -13,21 +13,15 @@ export const App = () => {
     const response = await getTodos()
 
     // Setar os todos no estado
-    setTodos(response.todos)
+    setTodos(response)
   }
 
   const handleDeleteTodo = async (todoId: number) => {
     // chamar a api passando o todoId para deletar o todo
     await deleteTodo(todoId)
-    // cria uma nova lista de todos
-    // onde o id do todo recebido na função não é igual ao id do todo
-    // que está sendo iterado no filter
-    const newTodos = todos?.filter((todo) => todo.id !== todoId)
 
-    // criamos o newTodo para atualizar o estado mas normalmente é a api q vai fornecer a lista atualizada
-
-    // atualizar o estado com novos todos
-    setTodos(newTodos)
+    // chama novamente a função fetchTodos para atualizar a lista de todos com o retorno da api
+    await fetchTodos()
   }
 
   useEffect(() => {
