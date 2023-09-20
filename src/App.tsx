@@ -2,8 +2,9 @@ import { Button } from '@/components/ui/button'
 import { Plus, Github } from 'lucide-react'
 import { TodoItem } from './components/todo-item'
 import { useEffect, useState } from 'react'
-import { getTodos } from './services'
+import { deleteTodo, getTodos } from './services'
 import { Todo } from './types'
+
 export const App = () => {
   // estado de todos
   const [todos, setTodos] = useState<Todo[] | undefined>(undefined)
@@ -12,7 +13,21 @@ export const App = () => {
     const response = await getTodos()
 
     // Setar os todos no estado
-    setTodos(response.slice(0, 20))
+    setTodos(response.todos)
+  }
+
+  const handleDeleteTodo = async (todoId: number) => {
+    // chamar a api passando o todoId para deletar o todo
+    await deleteTodo(todoId)
+    // cria uma nova lista de todos
+    // onde o id do todo recebido na função não é igual ao id do todo
+    // que está sendo iterado no filter
+    const newTodos = todos?.filter((todo) => todo.id !== todoId)
+
+    // criamos o newTodo para atualizar o estado mas normalmente é a api q vai fornecer a lista atualizada
+
+    // atualizar o estado com novos todos
+    setTodos(newTodos)
   }
 
   useEffect(() => {
@@ -36,7 +51,9 @@ export const App = () => {
           <div className="w-full flex flex-col gap-4 p-4 rounded-lg bg-muted-foreground/20">
             {/* percorre e retorna a lista de todos em tela */}
             {/* key é necessário para que o react mantenha o controle dos itens da lista e os encontre facilmente */}
-            {todos?.map((todo) => <TodoItem key={todo.id} todo={todo} />)}
+            {todos?.map((todo) => (
+              <TodoItem key={todo.id} onDelete={handleDeleteTodo} todo={todo} />
+            ))}
           </div>
         </main>
         <footer className="w-full mx-auto mt-auto text-center p-4 flex justify-center items-center">
