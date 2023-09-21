@@ -1,3 +1,13 @@
+## RFs (Requisitos funcionais)
+
+[x] - deve ser possível criar um todo - CREATE
+[] - deve ser possível editar um todo - UPDATE
+[x] - deve ser possível deletar um todo - DELETE
+[x] - deve ser possível listar todos do usuário - RETRIEVE
+[] - deve ser possível marcar o todo como concluído
+
+versão node 18.16.0
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

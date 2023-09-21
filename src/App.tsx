@@ -2,12 +2,20 @@ import { Button } from '@/components/ui/button'
 import { Plus, Github } from 'lucide-react'
 import { TodoItem } from './components/todo-item'
 import { useEffect, useState } from 'react'
-import { deleteTodo, getTodos } from './services'
+import { createNewTodo, deleteTodo, getTodos } from './services'
 import { Todo } from './types'
+import { TodoModal } from './components/todo-modal'
+import { generateRandomId } from './utils'
 
 export const App = () => {
   // estado de todos
   const [todos, setTodos] = useState<Todo[] | undefined>(undefined)
+  const [isCreateNewTodoModalOpen, setIsCreateNewTodoModalOpen] =
+    useState(false)
+
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
+
   const fetchTodos = async () => {
     // buscar todos usando a função getTodos
     const response = await getTodos()
@@ -16,12 +24,43 @@ export const App = () => {
     setTodos(response)
   }
 
-  const handleDeleteTodo = async (todoId: number) => {
+  const handleDeleteTodo = async (todoId: string) => {
     // chamar a api passando o todoId para deletar o todo
     await deleteTodo(todoId)
 
     // chama novamente a função fetchTodos para atualizar a lista de todos com o retorno da api
     await fetchTodos()
+  }
+
+  const handleCreateNewTodo = async () => {
+    // montar o objeto novo todo com os states title e description
+    const newTodo = {
+      id: generateRandomId(),
+      todo: title,
+      description,
+      completed: false,
+    }
+
+    // chamar a api para criar o novo todo
+    await createNewTodo(newTodo)
+
+    // limpar os campos do modal
+    setTitle('')
+    setDescription('')
+
+    // fechar o modal
+    setIsCreateNewTodoModalOpen(false)
+
+    // chamar novamente a função fetchTodos para atualizar a lista de todos
+    await fetchTodos()
+  }
+
+  const onChangeTitle = (title: string) => {
+    setTitle(title)
+  }
+
+  const onChangeDescription = (description: string) => {
+    setDescription(description)
   }
 
   useEffect(() => {
@@ -35,7 +74,7 @@ export const App = () => {
         <header className="px-6 py-4 flex items-center justify-between border-b w-full">
           <h1 className="text-3xl font-bold text-primary">todo.app</h1>
           <div className="flex items-center gap-3">
-            <Button>
+            <Button onClick={() => setIsCreateNewTodoModalOpen(true)}>
               <Plus />
               Add todo
             </Button>
@@ -56,7 +95,16 @@ export const App = () => {
         </footer>
       </div>
       {/* Modal */}
-      {/* <TodoModal /> */}
+      {isCreateNewTodoModalOpen && (
+        <TodoModal
+          onCreate={handleCreateNewTodo}
+          onCancel={() => setIsCreateNewTodoModalOpen(false)}
+          title={title}
+          description={description}
+          onChangeTitle={onChangeTitle}
+          onChangeDescription={onChangeDescription}
+        />
+      )}
     </>
   )
 }

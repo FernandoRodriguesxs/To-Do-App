@@ -1,11 +1,11 @@
 import { Trash2, Pencil } from 'lucide-react'
-import { Card, CardTitle } from '@/components/ui/card'
+import { Card, CardTitle, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Todo } from '@/types'
 
 interface TodoItemProps {
   todo: Todo
-  onDelete: (todoId: number) => void
+  onDelete: (todoId: string) => void
 }
 export const TodoItem = ({ todo, onDelete }: TodoItemProps) => {
   const onDeleteTodoItem = () => {
@@ -22,6 +22,9 @@ export const TodoItem = ({ todo, onDelete }: TodoItemProps) => {
         <CardTitle className="text-2xl text-primary font-bold">
           {todo.todo}
         </CardTitle>
+        <CardDescription className="text-sm text-muted-foreground">
+          {todo.description}
+        </CardDescription>
       </div>
       <div className="flex gap-2">
         <Button variant="outline">
