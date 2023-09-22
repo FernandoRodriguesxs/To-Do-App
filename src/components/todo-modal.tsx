@@ -14,19 +14,23 @@ import { Button } from '@/components/ui/button'
 interface ITodoModalProps {
   onCancel: () => void
   onCreate: () => void
+  onEdit: () => void
   onChangeTitle: (title: string) => void
   onChangeDescription: (description: string) => void
   title: string
   description: string
+  isEditing: boolean
 }
 
 export const TodoModal = ({
   onCancel,
   onCreate,
+  onEdit,
   title,
   description,
   onChangeTitle,
   onChangeDescription,
+  isEditing,
 }: ITodoModalProps) => {
   // função que chama a prop onChangeTitle e passa o valor do input que veio do evento
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,6 +43,12 @@ export const TodoModal = ({
   ) => {
     onChangeDescription(e.currentTarget.value)
   }
+
+  const isEditingButton = isEditing ? (
+    <Button onClick={onEdit}>Edit</Button>
+  ) : (
+    <Button onClick={onCreate}>Create</Button>
+  )
 
   return (
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-700/90 h-screen w-full flex items-center justify-center">
@@ -83,7 +93,7 @@ export const TodoModal = ({
             Cancel
           </Button>
           {/* função onCreate que vem das props */}
-          <Button onClick={onCreate}>Create</Button>
+          {isEditingButton}
         </CardFooter>
       </Card>
     </div>

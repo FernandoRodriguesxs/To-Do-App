@@ -143,18 +143,6 @@
       "description": "todo description",
       "todo": "Take cat on a walk",
       "completed": false
-    },
-    {
-      "id": "5k53rst583",
-      "todo": "dsadsa",
-      "description": "dsadsdsa",
-      "completed": false
-    },
-    {
-      "id": "gyvye116m0",
-      "todo": "dsdsdsa",
-      "description": "dsdsadsa",
-      "completed": false
     }
   ]
 }

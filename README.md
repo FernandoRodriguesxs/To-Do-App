@@ -1,10 +1,10 @@
 ## RFs (Requisitos funcionais)
 
 - [x] - deve ser possível criar um todo - CREATE
-- [] - deve ser possível editar um todo - UPDATE
+- [x] - deve ser possível editar um todo - UPDATE
 - [x] - deve ser possível deletar um todo - DELETE
 - [x] - deve ser possível listar todos do usuário - RETRIEVE
-- [] - deve ser possível marcar o todo como concluído
+- [x] - deve ser possível marcar o todo como concluído
 
 versão node 18.16.0
 
